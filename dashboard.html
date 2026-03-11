@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="https://cdn.metroui.org.ua/current/metro.css">
+    <script src="https://cdn.metroui.org.ua/current/metro.js"></script>
+
+    <title>Képes Dashboard - My GitHub Pages</title>
+
+    <style>
+        .container {
+            margin-top: 50px;
+        }
+        .tile-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        /* Egy kis extra margó a csempéknek */
+        .tile-base {
+            margin: 10px;
+        }
+
+        /* --- STÍLUSOK A KÉPES CSEMPÉKHEZ --- */
+        
+        /* Biztosítjuk, hogy a kép kitöltse a csempét */
+        .tile-content {
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Sötétítő réteg a kép felett, hogy a szöveg olvasható maradjon */
+        .tile-content::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4); /* 40%-os fekete áttetszőség */
+            z-index: 1;
+        }
+
+        /* A feliratot a sötétítő réteg felé helyezzük */
+        .tile-base .badge-bottom {
+            z-index: 2;
+        }
+
+        /* --- EGYEDI KÉPEK BEÁLLÍTÁSA (PÉLDA) --- */
+        /* Cseréld ki ezeket a 'url(...)'-okat a saját képeid elérési útjára */
+
+        .img-home {
+            background-image: url('https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=400&auto=format&fit=crop'); /* Példa: Tech/Otthon kép */
+        }
+        .img-about {
+            background-image: url('https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?q=80&w=400&auto=format&fit=crop'); /* Példa: Személyes/Iroda kép */
+        }
+        .img-posts {
+            background-image: url('https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=800&auto=format&fit=crop'); /* Példa: Blog/Írás kép */
+        }
+        .img-projects {
+            background-image: url('https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=400&auto=format&fit=crop'); /* Példa: Kódolás kép */
+        }
+        .img-publications {
+            background-image: url('https://images.unsplash.com/photo-1589998059171-988d887df646?q=80&w=400&auto=format&fit=crop'); /* Példa: Könyvek kép */
+        }
+
+    </style>
+</head>
+<body class="bg-darkTeal fg-white">
+
+    <div class="container">
+        <h1 class="text-center">Üdvözöllek a Képes Dashboardon</h1>
+        <p class="text-center mb-10">Válassz az alábbi menüpontok közül:</p>
+
+        <div class="tile-container">
+            
+            <a href="index.html" data-role="tile" class="tile-base">
+                <div class="tile-content img-home"></div>
+                <span class="badge-bottom fg-white">Home</span>
+            </a>
+
+            <a href="about.html" data-role="tile" class="tile-base">
+                <div class="tile-content img-about"></div>
+                <span class="badge-bottom fg-white">Rólam</span>
+            </a>
+
+            <a href="posts.html" data-role="tile" data-size="wide" class="tile-base">
+                <div class="tile-content img-posts"></div>
+                <span class="badge-bottom fg-white">Bejegyzések</span>
+            </a>
+
+            <a href="projects.html" data-role="tile" class="tile-base">
+                <div class="tile-content img-projects"></div>
+                <span class="badge-bottom fg-white">Projektek</span>
+            </a>
+
+            <a href="publications.html" data-role="tile" class="tile-base">
+                <div class="tile-content img-publications"></div>
+                <span class="badge-bottom fg-white">Publikációk</span>
+            </a>
+
+        </div>
+    </div>
+
+</body>
+</html>
