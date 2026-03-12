@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NMR Kvantum-számítástechnika (Gyors Betöltés)</title>
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    
+    <style>
+        body {
+            background-color: #000000;
+            background-image: linear-gradient(135deg, rgba(255, 0, 255, 0.1) 0%, rgba(0, 0, 0, 1) 40%, rgba(0, 0, 0, 1) 60%, rgba(0, 255, 255, 0.1) 100%);
+            background-attachment: fixed;
+            color: #e0e0e0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Navigáció */
+        .nav-header {
+            display: flex;
+            gap: 20px;
+            width: 100%;
+            max-width: 900px;
+            margin-bottom: 30px;
+            justify-content: flex-start;
+        }
+
+        .tile-link { text-decoration: none !important; }
+
+        .neon-tile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #00ffff;
+            border-radius: 12px;
+            transition: all 0.3s ease-in-out;
+            cursor: pointer;
+            width: 110px;
+            height: 110px;
+            color: #00ffff;
+            box-shadow: 0 0 8px #00ffff, inset 0 0 8px #00ffff;
+            background-color: rgba(0, 0, 0, 0.6);
+        }
+
+        .neon-tile svg { fill: currentColor; width: 35px; height: 35px; margin-bottom: 8px; }
+        .neon-tile .tile-label { text-transform: uppercase; letter-spacing: 0.1rem; font-size: 0.65rem; }
+        .tile-link:hover .neon-tile { transform: scale(1.05); box-shadow: 0 0 20px #00ffff, inset 0 0 10px #00ffff; }
+
+        /* Blog kártya */
+        .content-card {
+            max-width: 900px;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.85);
+            border: 1px solid rgba(255, 0, 255, 0.2);
+            padding: 50px;
+            border-radius: 20px;
+            box-shadow: 0 0 40px rgba(0,0,0,1);
+            backdrop-filter: blur(10px);
+        }
+
+        h1 { color: #ff00ff; text-shadow: 0 0 15px #ff00ff; font-size: 2.2rem; }
+        h2 { color: #00ffff; border-bottom: 1px solid rgba(0, 255, 255, 0.3); padding-bottom: 10px; margin-top: 30px; }
+        
+        p { line-height: 1.8; font-size: 1.1rem; }
+
+        /* Julia Kód stílus */
+        pre[class*="language-"] {
+            background: #0d0d0d !important;
+            border: 1px solid #ff00ff !important;
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.1);
+            padding: 20px !important;
+            border-radius: 12px !important;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="nav-header">
+        <a href="../dashboard.html" class="tile-link">
+            <div class="neon-tile">
+                <svg viewBox="0 0 24 24"><path d="M4 13h6c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v8c0 .55.45 1 1 1zm0 8h6c.55 0 1-.45 1-1v-4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1zm10 0h6c.55 0 1-.45 1-1v-8c0-.55-.45-1-1-1h-6c-.55 0-1 .45-1 1v8c0 .55.45 1 1 1zM13 4v4c0 .55.45 1 1 1h6c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1h-6c-.55 0-1 .45-1 1z"/></svg>
+                <span class="tile-label">Dashboard</span>
+            </div>
+        </a>
+
+        <a href="javascript:history.back()" class="tile-link">
+            <div class="neon-tile">
+                <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+                <span class="tile-label">Vissza</span>
+            </div>
+        </a>
+    </header>
+
+    <main class="content-card">
+        <h1>NMR Kvantum-számítástechnika: Elméleti Alapok</h1>
+        
+        <section>
+            <h2>Bevezetés</h2>
+            <p>Az NMR (Nuclear Magnetic Resonance) kvantumszámítógépek az atommagok spin-állapotait használják információtárolásra. A molekuláris rendszerekben a spinek közötti kölcsönhatások teszik lehetővé a kvantumkapuk megvalósítását.</p>
+        </section>
+
+        <section>
+            <h2>A Fizikai Modell</h2>
+            <p>Egy külső mágneses térbe helyezett spin Hamilton-operátora leírja a rendszer energiáját és a spinek közötti csatolásokat. Ezek a kölcsönhatások precíz rádiófrekvenciás impulzusokkal manipulálhatók, ami alapvető a kvantumszámítások elvégzéséhez.</p>
+        </section>
+
+        <section>
+            <h2>Szimuláció Julia nyelven</h2>
+            <p>Az alábbi Julia kód egy egyszerű szimulációt mutat be a Neumann-egyenlet alapján:</p>
+            <pre><code class="language-julia">
+using LinearAlgebra
+
+# Paraméterek
+dt = 0.01
+t_final = 1.0
+H = [0.5 0; 0 -0.5] # Hamilton-mátrix
+
+# Időfejlődés operátor: U = exp(-iHt)
+U(t) = exp(-im * H * t)
+
+# Kezdeti állapot |0><0|
+rho_0 = [1 0; 0 0]
+
+# Állapot t időpillanatban: rho(t) = U*rho_0*U'
+rho_t = U(t_final) * rho_0 * U(t_final)'
+            </code></pre>
+        </section>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-julia.min.js"></script>
+</body>
+</html>

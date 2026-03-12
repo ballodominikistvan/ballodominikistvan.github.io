@@ -72,6 +72,42 @@
         .main-content {
             margin-top: 50px;
         }
+
+        /* Széles bejegyzés csempe */
+        .post-tile {
+            display: flex;
+            align-items: center;
+            background-color: rgba(0,0,0,0.7);
+            border: 2px solid #00ffff;
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 30px;
+            text-decoration: none;
+            color: #ffffff;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .post-tile:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 15px #00ffff;
+        }
+        .post-icon {
+            flex: 0 0 60px;
+            margin-right: 20px;
+        }
+        .post-icon svg {
+            width: 48px;
+            height: 48px;
+            fill: #00ffff;
+        }
+        .post-summary {
+            flex: 1;
+        }
+        .post-summary h3 {
+            margin: 0 0 5px 0;
+        }
+        .post-summary p {
+            margin: 0;
+        }
     </style>
 </head>
 <body>
@@ -88,6 +124,25 @@
     </header>
 
     <main class="main-content">
+        <section class="intro">
+            <h2>Üdvözöllek a szakmai blogomon</h2>
+            <p>Ez a hely, ahol a kvantuminformatikai kutatásaimat, ötleteimet és eredményeimet osztom meg. Minden bejegyzés független nézőpontból íródik, és célja, hogy betekintést nyújtson a legújabb fejleményekbe.</p>
+        </section>
+
+        <section class="latest-post">
+            <a href="posts/nmrqpu.html" class="post-tile">
+                <div class="post-icon">
+                    <!-- blog post ikon -->
+                    <svg viewBox="0 0 24 24">
+                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14H8v-2h4v2zm4-4H8v-2h8v2zm0-4H8V7h8v2z"/>
+                    </svg>
+                </div>
+                <div class="post-summary">
+                    <h3>NMR-QPU kísérletek</h3>
+                    <p>Rövid összefoglaló a bejegyzésről: miként közelítsük meg az NMR alapú kvantumszámítógépek próbaüzemét és a legújabb mérési eredményeket.</p>
+                </div>
+            </a>
+        </section>
         </main>
 
     <script src="https://cdn.metroui.org.ua/v4/js/metro.min.js"></script>
