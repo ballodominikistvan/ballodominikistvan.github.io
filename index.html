@@ -1,57 +1,58 @@
-<!DOCTYPE html>
-<html lang="hu">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://cdn.metroui.org.ua/current/metro.css">
-    <script src="https://cdn.metroui.org.ua/current/metro.js"></script>
+<div class="nav-container">
+    <a href="dashboard.html" class="tile-link inactive">
+        <div class="neon-tile">
+            <svg viewBox="0 0 24 24">
+                <path d="M4 13h6c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v8c0 .55.45 1 1 1zm0 8h6c.55 0 1-.45 1-1v-4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1zm10 0h6c.55 0 1-.45 1-1v-8c0-.55-.45-1-1-1h-6c-.55 0-1 .45-1 1v8c0 .55.45 1 1 1zM13 4v4c0 .55.45 1 1 1h6c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1h-6c-.55 0-1 .45-1 1z"/>
+            </svg>
+            <span class="tile-label">Dashboard</span>
+        </div>
+    </a>
+</div>
 
-    <style>
-        .nav-container {
-            padding: 20px;
-            display: flex;
-            justify-content: flex-start;
-        }
+<style>
+    /* Szükséges stílusok, hogy az aloldalon is ugyanúgy nézzen ki */
+    .nav-container {
+        padding: 20px;
+        display: flex;
+        justify-content: flex-start; /* Bal oldalra igazítva, mint egy vissza gomb */
+    }
 
-        /* Képes csempe stílusa */
-        .tile-content-nav {
-            background-image: url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=800&auto=format&fit=crop'); /* Technikai/Rács háttér */
-            background-size: cover;
-            background-position: center;
-            width: 100%;
-            height: 100%;
-            position: relative;
-        }
+    .tile-link {
+        text-decoration: none !important;
+    }
 
-        /* Sötétítő réteg a szöveg olvashatóságáért */
-        .tile-content-nav::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5); /* 50%-os sötétítés */
-        }
+    .neon-tile {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid #00ffff;
+        border-radius: 12px;
+        transition: all 0.3s ease-in-out;
+        cursor: pointer;
+        width: 150px;  /* Kicsit kisebb, hogy navigációs gombként funkcionáljon */
+        height: 180px;
+        color: #00ffff;
+        box-shadow: 0 0 8px #00ffff, inset 0 0 8px #00ffff;
+        background-color: rgba(0, 0, 0, 0.4);
+    }
 
-        /* A felirat a sötétítés felett legyen */
-        .nav-tile .badge-bottom {
-            z-index: 2;
-        }
-    </style>
-</head>
-<body class="bg-darkTeal fg-white">
+    .neon-tile svg {
+        fill: currentColor;
+        width: 50px;
+        height: 50px;
+        margin-bottom: 10px;
+    }
 
-    <div class="nav-container">
-        <a href="dashboard.html" 
-           data-role="tile" 
-           data-size="wide" 
-           class="nav-tile">
-            <div class="tile-content-nav"></div>
-            <span class="badge-bottom fg-white">Vissza a Dashboardra</span>
-        </a>
-    </div>
+    .neon-tile .tile-label {
+        text-transform: uppercase;
+        letter-spacing: 0.1rem;
+        font-size: 0.9rem;
+        text-align: center;
+    }
 
-    <hr class="thin bg-grayBlue">
-
-    </body>
-</html>
+    .tile-link:hover .neon-tile {
+        transform: scale(1.05);
+        box-shadow: 0 0 20px #00ffff, inset 0 0 10px #00ffff;
+    }
+</style>

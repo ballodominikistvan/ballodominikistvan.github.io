@@ -3,110 +3,161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
-    <link rel="stylesheet" href="https://cdn.metroui.org.ua/current/metro.css">
-    <script src="https://cdn.metroui.org.ua/current/metro.js"></script>
-
-    <title>Képes Dashboard - My GitHub Pages</title>
-
+    <title>Kvantum Kutatói Dashboard - Neon Style (SVG fix)</title>
+    <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-all.min.css">
+    
     <style>
-        .container {
-            margin-top: 50px;
+        body {
+            background-color: #000000;
+            background-image: 
+                linear-gradient(135deg, rgba(255, 0, 255, 0.1) 0%, rgba(0, 0, 0, 1) 40%, rgba(0, 0, 0, 1) 60%, rgba(0, 255, 255, 0.1) 100%);
+            background-size: cover;
+            background-attachment: fixed;
+            color: white;
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow-x: hidden;
         }
-        .tile-container {
+
+        .page-title {
+            text-align: center;
+            font-size: 4rem;
+            color: #ffffff;
+            text-shadow: 0 0 20px #00ffff, 0 0 30px #00ffff;
+            text-transform: uppercase;
+            letter-spacing: 0.5rem;
+            margin-bottom: 40px;
+        }
+
+        .neon-tiles-container {
             display: flex;
             flex-wrap: wrap;
+            align-items: center;
             justify-content: center;
-        }
-        /* Egy kis extra margó a csempéknek */
-        .tile-base {
-            margin: 10px;
+            gap: 15px;
+            padding: 20px;
+            max-width: 1400px;
         }
 
-        /* --- STÍLUSOK A KÉPES CSEMPÉKHEZ --- */
+        .tile-link {
+            text-decoration: none !important;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .neon-tile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid transparent;
+            border-radius: 12px;
+            transition: all 0.3s ease-in-out;
+            cursor: pointer;
+        }
+
+        /* SVG Ikonok formázása */
+        .neon-tile svg {
+            fill: currentColor; /* Az ikon színe megegyezik a szöveg színével */
+            margin-bottom: 10px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .neon-tile .tile-label {
+            text-transform: uppercase;
+            letter-spacing: 0.1rem;
+            text-align: center;
+        }
+
+        /* --- KIJELÖLT (LILA, NAGY) --- */
+        .tile-link.active .neon-tile {
+            width: 260px;
+            height: 360px;
+            border-color: #ff00ff;
+            box-shadow: 0 0 15px #ff00ff, inset 0 0 15px #ff00ff;
+            color: #ff00ff;
+        }
         
-        /* Biztosítjuk, hogy a kép kitöltse a csempét */
-        .tile-content {
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            width: 100%;
-            height: 100%;
+        /* Nagyobb SVG ikon az aktív csempének */
+        .tile-link.active .neon-tile svg { 
+            width: 100px; 
+            height: 100px; 
+        } 
+        
+        .tile-link.active .tile-label { font-size: 1.5rem; font-weight: bold; }
+
+        /* --- NEM KIJELÖLT (KÉK, KICSI) --- */
+        .tile-link.inactive .neon-tile {
+            width: 180px;
+            height: 250px;
+            border-color: #00ffff;
+            box-shadow: 0 0 8px #00ffff, inset 0 0 8px #00ffff;
+            color: #00ffff;
+            background-color: rgba(0, 0, 0, 0.4);
         }
 
-        /* Sötétítő réteg a kép felett, hogy a szöveg olvasható maradjon */
-        .tile-content::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.4); /* 40%-os fekete áttetszőség */
-            z-index: 1;
+        .tile-link.inactive:hover .neon-tile {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px #00ffff, inset 0 0 10px #00ffff;
         }
 
-        /* A feliratot a sötétítő réteg felé helyezzük */
-        .tile-base .badge-bottom {
-            z-index: 2;
+        /* Kisebb SVG ikon a nem aktív csempéknek */
+        .tile-link.inactive .neon-tile svg { 
+            width: 60px; 
+            height: 60px; 
         }
 
-        /* --- EGYEDI KÉPEK BEÁLLÍTÁSA (PÉLDA) --- */
-        /* Cseréld ki ezeket a 'url(...)'-okat a saját képeid elérési útjára */
-
-        .img-home {
-            background-image: url('https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=400&auto=format&fit=crop'); /* Példa: Tech/Otthon kép */
-        }
-        .img-about {
-            background-image: url('https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?q=80&w=400&auto=format&fit=crop'); /* Példa: Személyes/Iroda kép */
-        }
-        .img-posts {
-            background-image: url('https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=800&auto=format&fit=crop'); /* Példa: Blog/Írás kép */
-        }
-        .img-projects {
-            background-image: url('https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=400&auto=format&fit=crop'); /* Példa: Kódolás kép */
-        }
-        .img-publications {
-            background-image: url('https://images.unsplash.com/photo-1589998059171-988d887df646?q=80&w=400&auto=format&fit=crop'); /* Példa: Könyvek kép */
-        }
+        .tile-link.inactive .tile-label { font-size: 1rem; }
 
     </style>
 </head>
-<body class="bg-darkTeal fg-white">
+<body>
 
-    <div class="container">
-        <h1 class="text-center">Üdvözöllek a Képes Dashboardon</h1>
-        <p class="text-center mb-10">Válassz az alábbi menüpontok közül:</p>
+    <h1 class="page-title">KVANTUM</h1>
 
-        <div class="tile-container">
-            
-            <a href="index.html" data-role="tile" class="tile-base">
-                <div class="tile-content img-home"></div>
-                <span class="badge-bottom fg-white">Home</span>
-            </a>
+    <div class="neon-tiles-container">
+        
+        <a href="index.html" class="tile-link active">
+            <div class="neon-tile">
+                <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+                <span class="tile-label">Kezdőlap</span>
+            </div>
+        </a>
 
-            <a href="about.html" data-role="tile" class="tile-base">
-                <div class="tile-content img-about"></div>
-                <span class="badge-bottom fg-white">Rólam</span>
-            </a>
+        <a href="about.html" class="tile-link inactive">
+            <div class="neon-tile">
+                <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                <span class="tile-label">Rólam</span>
+            </div>
+        </a>
 
-            <a href="posts.html" data-role="tile" data-size="wide" class="tile-base">
-                <div class="tile-content img-posts"></div>
-                <span class="badge-bottom fg-white">Bejegyzések</span>
-            </a>
+        <a href="posts.html" class="tile-link inactive">
+            <div class="neon-tile">
+                <svg viewBox="0 0 24 24"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9H9V9h10v2zm-4 4H9v-2h6v2zm4-8H9V5h10v2z"/></svg>
+                <span class="tile-label">Blog</span>
+            </div>
+        </a>
 
-            <a href="projects.html" data-role="tile" class="tile-base">
-                <div class="tile-content img-projects"></div>
-                <span class="badge-bottom fg-white">Projektek</span>
-            </a>
+        <a href="publications.html" class="tile-link inactive">
+            <div class="neon-tile">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                <span class="tile-label">Publikációk</span>
+            </div>
+        </a>
 
-            <a href="publications.html" data-role="tile" class="tile-base">
-                <div class="tile-content img-publications"></div>
-                <span class="badge-bottom fg-white">Publikációk</span>
-            </a>
+        <a href="projects.html" class="tile-link inactive">
+            <div class="neon-tile">
+                <svg viewBox="0 0 24 24"><path d="M18.8 6.5l-3.3 4.1V20H8.5v-9.4L5.2 6.5C4.6 5.8 5.1 4.7 6 4.7h12c.9 0 1.4 1.1.8 1.8zm-2.4 2.8l2.2-2.8H5.4l2.2 2.8v9.4h8.8V9.3zM12 2c1.1 0 2 .9 2 2H10c0-1.1.9-2 2-2z"/></svg>
+                <span class="tile-label">Projektek</span>
+            </div>
+        </a>
 
-        </div>
     </div>
 
+    <script src="https://cdn.metroui.org.ua/v4/js/metro.min.js"></script>
 </body>
 </html>
