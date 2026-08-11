@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bálló Dominik István | Gamified Portfolio</title>
+    <!-- Pixel Font (Press Start 2P) & Modern Sans (Inter) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+    
+    <!-- GitHub Calendar Library CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/github-calendar@latest/dist/github-calendar-responsive.css"/>
+
+    <style>
+        :root {
+            --bg-color: #0d1117;
+            --panel-bg: rgba(22, 27, 34, 0.85);
+            --border-color: #30363d;
+            --accent-green: #3fb950;
+            --accent-cyan: #58a6ff;
+            --accent-purple: #bc8cff;
+            --accent-gold: #f1e05a;
+            --text-main: #c9d1d9;
+            --text-heading: #f0f6fc;
+            --font-pixel: 'Press Start 2P', monospace;
+            --font-main: 'Inter', system-ui, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(56, 139, 253, 0.15), transparent 50%),
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 100% 100%, 32px 32px, 32px 32px;
+            color: var(--text-main);
+            font-family: var(--font-main);
+            line-height: 1.6;
+            padding: 2rem 1rem;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        /* RPG Status Header Bar */
+        .status-bar {
+            background: var(--panel-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+
+        .player-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .player-avatar {
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            border: 2px solid var(--accent-cyan);
+            box-shadow: 0 0 10px rgba(88, 166, 255, 0.4);
+        }
+
+        .player-title h1 {
+            font-family: var(--font-pixel);
+            font-size: 0.9rem;
+            color: var(--text-heading);
+            margin-bottom: 0.3rem;
+        }
+
+        .player-title p {
+            font-size: 0.85rem;
+            color: var(--accent-cyan);
+            font-weight: 600;
+        }
+
+        .stats-badges {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: rgba(48, 54, 61, 0.6);
+            border: 1px solid var(--border-color);
+            padding: 0.3rem 0.7rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .badge.gold { color: var(--accent-gold); border-color: rgba(241, 224, 90, 0.4); }
+        .badge.purple { color: var(--accent-purple); border-color: rgba(188, 140, 255, 0.4); }
+        .badge.green { color: var(--accent-green); border-color: rgba(63, 185, 80, 0.4); }
+
+        /* Panel Common Style */
+        .rpg-panel {
+            background: var(--panel-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .panel-header {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: 1.2rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.8rem;
+        }
+
+        .panel-header h2 {
+            font-family: var(--font-pixel);
+            font-size: 0.85rem;
+            color: var(--accent-cyan);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Hero / GitHero Widget Section */
+        .githero-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 0;
+            position: relative;
+        }
+
+        .githero-link {
+            display: inline-block;
+            transition: transform 0.3s ease, filter 0.3s ease;
+            animation: float 4s ease-in-out infinite;
+            max-width: 100%;
+        }
+
+        .githero-widget-img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 8px;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .githero-link:hover {
+            transform: translateY(-4px) scale(1.01);
+            filter: drop-shadow(0 0 15px rgba(88, 166, 255, 0.4));
+        }
+
+        /* GitHub Contribution Calendar Overrides */
+        .calendar-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            padding: 0.5rem 0;
+        }
+
+        .loading-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 0;
+            gap: 1rem;
+            color: #8b949e;
+            font-size: 0.85rem;
+        }
+
+        .pixel-spinner {
+            width: 24px;
+            height: 24px;
+            border: 3px solid var(--border-color);
+            border-top: 3px solid var(--accent-green);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .calendar {
+            border: none !important;
+            background: transparent !important;
+            font-family: var(--font-main) !important;
+            color: var(--text-main) !important;
+        }
+
+        .calendar .ContributionCalendar-day[data-level="0"] { background-color: #161b22 !important; border: 1px solid rgba(255,255,255,0.05); }
+        .calendar .ContributionCalendar-day[data-level="1"] { background-color: #0e4429 !important; }
+        .calendar .ContributionCalendar-day[data-level="2"] { background-color: #006d32 !important; }
+        .calendar .ContributionCalendar-day[data-level="3"] { background-color: #26a641 !important; }
+        .calendar .ContributionCalendar-day[data-level="4"] { background-color: #39d353 !important; }
+
+        .calendar table {
+            margin: 0 auto;
+        }
+
+        .calendar-graph text {
+            fill: #8b949e !important;
+        }
+
+        .contrib-legend {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 0.3rem;
+            font-size: 0.75rem;
+            color: #8b949e;
+            margin-top: 1rem;
+        }
+
+        .legend-box {
+            width: 11px;
+            height: 11px;
+            border-radius: 2px;
+        }
+
+        .legend-box.level-0 { background-color: #161b22; border: 1px solid rgba(255,255,255,0.05); }
+        .legend-box.level-1 { background-color: #0e4429; }
+        .legend-box.level-2 { background-color: #006d32; }
+        .legend-box.level-3 { background-color: #26a641; }
+        .legend-box.level-4 { background-color: #39d353; }
+
+        /* Quests Grid */
+        .quest-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+
+        .quest-card {
+            background: rgba(13, 17, 23, 0.7);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.2rem;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .quest-card:hover {
+            border-color: var(--accent-purple);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 20px rgba(188, 140, 255, 0.2);
+        }
+
+        .quest-status {
+            font-family: var(--font-pixel);
+            font-size: 0.6rem;
+            color: var(--accent-green);
+            background: rgba(63, 185, 80, 0.1);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 0.6rem;
+        }
+
+        .quest-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            margin-bottom: 0.4rem;
+        }
+
+        .quest-desc {
+            font-size: 0.85rem;
+            color: #8b949e;
+            margin-bottom: 0.8rem;
+        }
+
+        .quest-tags {
+            display: flex;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            font-size: 0.7rem;
+            background: rgba(56, 139, 253, 0.15);
+            color: var(--accent-cyan);
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            font-size: 0.8rem;
+            color: #8b949e;
+            padding: 1rem 0;
+            font-family: var(--font-pixel);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .status-bar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            .player-title h1 {
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- 1. RPG PLAYER STATUS BAR -->
+        <header class="status-bar">
+            <div class="player-info">
+                <img src="https://github.com/ballodominikistvan.png" alt="Avatar" class="player-avatar" id="user-avatar" onerror="this.src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'">
+                <div class="player-title">
+                    <h1 id="user-name">ballodominikistvan</h1>
+                    <p>🎓 OSSU CS Scholar & Open Source Contributor</p>
+                </div>
+            </div>
+            <div class="stats-badges">
+                <div class="badge gold"><span>🏆</span> LVL: OSSU Scholar</div>
+                <div class="badge purple"><span>⚔️</span> GitHero Active</div>
+                <div class="badge green"><span>⚡</span> Open Source Main</div>
+            </div>
+        </header>
+
+        <!-- 2. GITHERO.DEV EMBED WIDGET (DYNAMIC API WIDGET) -->
+        <section class="rpg-panel">
+            <div class="panel-header">
+                <span>🛡️</span>
+                <h2>Hero Stats & Equipment</h2>
+            </div>
+            <div class="githero-container">
+                <a href="https://www.githero.dev/u/ballodominikistvan?ref=ballodominikistvan&widget=animated" class="githero-link" target="_blank" rel="noopener noreferrer">
+                    <img src="https://www.githero.dev/api/widget/ballodominikistvan?style=animated&theme=dark" alt="Githero Stats for ballodominikistvan" class="githero-widget-img" />
+                </a>
+            </div>
+        </section>
+
+        <!-- 3. GITHUB CONTRIBUTION GRAPH -->
+        <section class="rpg-panel">
+            <div class="panel-header">
+                <span>🟩</span>
+                <h2>Contribution Heatmap Grid</h2>
+            </div>
+            <div class="calendar-wrapper">
+                <div class="calendar" id="github-calendar-target">
+                    <div class="loading-state">
+                        <div class="pixel-spinner"></div>
+                        <p>Pálya adatok betöltése a GitHub API-ból...</p>
+                    </div>
+                </div>
+            </div>
+            <div class="contrib-legend">
+                <span>Kevesebb</span>
+                <span class="legend-box level-0"></span>
+                <span class="legend-box level-1"></span>
+                <span class="legend-box level-2"></span>
+                <span class="legend-box level-3"></span>
+                <span class="legend-box level-4"></span>
+                <span>Több</span>
+            </div>
+        </section>
+
+        <!-- 4. QUEST LOG / PROJECTS SECTION -->
+        <section class="rpg-panel">
+            <div class="panel-header">
+                <span>📜</span>
+                <h2>Completed Quests & Projects</h2>
+            </div>
+            <div class="quest-grid">
+                <!-- Quest Card 1 -->
+                <div class="quest-card">
+                    <span class="quest-status">COMPLETED</span>
+                    <h3 class="quest-title">OSSU CS Curriculum</h3>
+                    <p class="quest-desc">Elméleti számítástechnika, algoritmusok, adatstruktúrák és rendszermag architektúrák elsajátítása.</p>
+                    <div class="quest-tags">
+                        <span class="tag">Python</span>
+                        <span class="tag">C</span>
+                        <span class="tag">Algorithms</span>
+                    </div>
+                </div>
+
+                <!-- Quest Card 2 -->
+                <div class="quest-card">
+                    <span class="quest-status">IN PROGRESS</span>
+                    <h3 class="quest-title">Open Source Contributions</h3>
+                    <p class="quest-desc">Pull Requestek, bugfixek és új funkciók fejlesztése népszerű közösségi tárolókban GitHero kíséretében.</p>
+                    <div class="quest-tags">
+                        <span class="tag">GitHub</span>
+                        <span class="tag">GitHero</span>
+                        <span class="tag">PRs</span>
+                    </div>
+                </div>
+
+                <!-- Quest Card 3 -->
+                <div class="quest-card">
+                    <span class="quest-status">COMPLETED</span>
+                    <h3 class="quest-title">Gamified Portfolio</h3>
+                    <p class="quest-desc">Interaktív GitHub Pages oldal építése GitHero API widgettel és élő kontribúciós táblával.</p>
+                    <div class="quest-tags">
+                        <span class="tag">HTML5</span>
+                        <span class="tag">CSS3</span>
+                        <span class="tag">JS</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer>
+            <p>Press START to view full repositories on GitHub</p>
+        </footer>
+    </div>
+
+    <!-- GitHub Calendar JS CDN -->
+    <script src="https://unpkg.com/github-calendar@latest/dist/github-calendar.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const USERNAME = "ballodominikistvan";
+
+            GitHubCalendar("#github-calendar-target", USERNAME, { 
+                responsive: true,
+                tooltips: true
+            }).then(() => {
+                console.log("GitHub Calendar sikeresen betöltve!");
+            }).catch(err => {
+                console.error(err);
+                document.getElementById('github-calendar-target').innerHTML = `
+                    <div style="text-align:center; padding:1.5rem; color:#f85149; font-size:0.85rem;">
+                        ⚠️ A GitHub kontribúciós táblát nem sikerült betölteni. Kérlek ellenőrizd az internetkapcsolatot vagy a felhasználónevet!
+                    </div>
+                `;
+            });
+        });
+    </script>
+</body>
+</html>
