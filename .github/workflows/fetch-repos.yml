@@ -1,0 +1,30 @@
+name: Fetch Repositories via GraphQL
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Minden nap éjfélkor frissít
+  workflow_dispatch: # Manuálisan is indítható gombnyomásra
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch GraphQL Data
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          curl -s -X POST \
+            -H "Authorization: bearer $GH_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d '{"query": "query { user(login: \"YOUR_GITHUB_USERNAME\") { repositories(first: 20, privacy: PUBLIC, orderBy: {field: UPDATED_AT, direction: DESC}) { nodes { name description url stargazerCount primaryLanguage { name } isFork } } repositoriesContributedTo(first: 20, contributionTypes: [COMMIT, PULL_REQUEST], privacy: PUBLIC) { nodes { nameWithOwner description url stargazerCount primaryLanguage { name } } } } }"}' \
+            https://api.github.com/graphql > repos.json
+
+      - name: Commit and push if changed
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add repos.json
+          git commit -m "chore: auto-update repos.json" || exit 0
+          git push
